@@ -1,0 +1,51 @@
+size=512,256;
+
+spacing=1;
+splitalpha=false;
+export=rapt;
+canrotate=false;
+
+imagepath="..\..\Resources\images\";
+datapath="..\..\Resources\images\";
+codepath="..\..\Source\";
+
+Font=Font_Text:Arial Black:16::@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/\?--@;
+
+[begin RAPT.H];
+#pragma once
+#include "rapt.h"
+
+
+class Bundle_[BUNDLE];
+extern Bundle_[BUNDLE]* gBundle_[BUNDLE];
+
+class Bundle_[BUNDLE] : public SpriteBundle
+{
+public:
+	Bundle_[BUNDLE]()	{gBundle_[BUNDLE]=this;}
+	void			Load();
+		
+public:
+
+[AUTOMATIC]
+};
+[end];
+
+[begin RAPT.CPP];
+#include "Bundle_[BUNDLE].h"
+Bundle_[BUNDLE]* gBundle_[BUNDLE]=NULL;
+
+void Bundle_[BUNDLE]::Load()
+{
+	OverrideTextureSize();
+	if (IsRetina("[BUNDLE]")) {if (!SpriteBundle::Load("[BUNDLE]@2X")) return;LoadData("[BUNDLE]@2X");}
+	else {if (!SpriteBundle::Load("[BUNDLE]")) return;LoadData("[BUNDLE]");}
+	
+[AUTOMATIC]
+	gG.RegisterFillrect(&mFillrect);
+	UnloadData();
+}
+[end];
+
+
+dick=wad;

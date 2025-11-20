@@ -1,0 +1,113 @@
+size=512,512;
+
+spacing=1;
+splitalpha=false;
+export=rapt;
+canrotate=false;
+
+imagepath="..\..\Resources\images\";
+datapath="..\..\Resources\images\";
+codepath="..\..\Source\";
+
+Font=Font_Header:Commodore 64:35::@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+Font=Font_Normal:Commodore 64:25::@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+Font=Font_GroupHeader:Commodore 64:16::@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+
+
+[begin RAPT.H];
+#pragma once
+#include "rapt.h"
+#include "dialog.h"
+#include "bundle_sounds.h"
+
+
+class Bundle_[BUNDLE];
+extern Bundle_[BUNDLE]* gBundle_[BUNDLE];
+
+class Bundle_[BUNDLE] : public DialogWidgetBundle
+{
+public:
+	Bundle_[BUNDLE]()	{gBundle_[BUNDLE]=this;}
+	void			Load();
+	
+	//
+	// Define any extra sprites here...
+	//
+	Sprite			mMenuTop_Hollow;
+	Sprite			mDialogRim_Hollow;
+};
+[end];
+
+[begin RAPT.CPP];
+#include "Bundle_[BUNDLE].h"
+Bundle_[BUNDLE]* gBundle_[BUNDLE]=NULL;
+
+void Bundle_[BUNDLE]::Load()
+{
+	//
+	// Tweak font placement for taste or font weirdness
+	// in text boxes...
+	//
+	mTextBoxBorder=Point(8,5);		
+	mTextBoxCursorOffset=Point(0,0);
+	mTextBoxCursorWidth=3;
+	mTextBoxTextOffset=Point(1,1);
+	mTextBoxColor=mKeyGrabberColor=IColor(255,255,255);
+	mKeyGrabberTextOffset=Point(0,1);
+	
+	//
+	// Panel area... x1,y1 is where it starts, Width/Height-x2,y2 is where it ends.
+	//
+	float aExtraX=30;
+	float aExtraY=21;
+	//mPanelArea=AABBRect(20+aExtraX,75+aExtraY,-(40+(aExtraX*2)),-((75*2)+(aExtraY*2)));
+	mPanelArea=AABBRect(20+aExtraX,75+aExtraY,-(40+(aExtraX*2)),-(100+aExtraY*2));	// If you want fully to bottom
+	
+	mNormalColor=IColor(255,255,255);	// Color of normal text in controls
+	mTitleColor=IColor(255,255,255);	// Color of the title headers
+	mGroupHeaderColor=Color(255,255,255);	// Color of group headers
+	mClickableColor=IColor(200,255,200);	// Color of stuff we can click
+	mWidgetBorder=Point(10,10);				// How much to pad the widgets themselves (like border around the text and graphics)
+	mVerticalPadding=14;					// How much space to pad the top and bottom of the scrolly area with
+	
+	mBackgroundIs4Corner=true;				// Means the background graphic supplies all four corners
+	
+	mDoneButtonOffset=Point(20,-10+10);
+	mHeaderTextOffset=Point(0,0+5);
+	mBackButtonOffset=Point(20,-0+5);
+
+	
+	mClickSound=&gSounds->mClick;
+	
+	
+	OverrideTextureSize();
+	if (IsRetina("[BUNDLE]")) {if (!SpriteBundle::Load("[BUNDLE]@2X")) return;LoadData("[BUNDLE]@2X");}
+	else {if (!SpriteBundle::Load("[BUNDLE]")) return;LoadData("[BUNDLE]");}
+	
+
+
+
+	
+[AUTOMATIC]
+	gG.RegisterFillrect(&mFillrect);
+	UnloadData();
+
+	//
+	// Font tweak for our dialog stuff...
+	//
+	mFont_Normal.TweakOffset(Point(0,-3));
+	mFont_Header.TweakOffset(Point(0,-1));
+	mFont_GroupHeader.TweakOffset(Point(0,-2));
+	
+	mFont_Normal.SetExtraSpacing(-3);
+	mFont_Header.SetExtraSpacing(-3);
+	mFont_GroupHeader.SetExtraSpacing(-3);
+	mFont_Normal.SetCharacterWidth(32,mFont_Normal.mCharacter[32].mWidth-5);
+	mFont_Header.SetCharacterWidth(32,mFont_Header.mCharacter[32].mWidth-5);
+	mFont_GroupHeader.SetCharacterWidth(32,mFont_GroupHeader.mCharacter[32].mWidth-5);
+
+}
+[end];
+
+
+dick=wad;

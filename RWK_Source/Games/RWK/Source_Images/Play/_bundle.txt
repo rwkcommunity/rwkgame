@@ -1,0 +1,62 @@
+size=2048,2048;
+
+spacing=1;
+splitalpha=false;
+export=rapt;
+canrotate=false;
+
+imagepath="..\..\Resources\images\";
+datapath="..\..\Resources\images\";
+codepath="..\..\Source\";
+
+Font=Font_Tiny:BellGothicStd-Black:10::@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+Font=Font_Tiny_Outline:BellGothicStd-Black:10:stroke(1):@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+Font=Font_Commodore64Angled8:Commodore 64 Angled:11::@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+Font=Font_Commodore64Angled11OutlineHard:Commodore 64 Angled:18:stroke(2):@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+
+Font=Font_Commodore64Angled11:Commodore 64 Angled:18::@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+Font=Font_Commodore64Angled18:Commodore 64 Angled:25::@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+
+FXFont=Font_Commodore64Angled8Outline:Commodore 64 Angled:11::@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+FXFont=Font_Commodore64Angled11Outline:Commodore 64 Angled:18::@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+FXFont=Font_Commodore64Angled18Outline:Commodore 64 Angled:25::@-- ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`!@#$%^&*()-_=+[];:'",<.>/?--@;
+
+
+[begin RAPT.H];
+#pragma once
+#include "rapt.h"
+
+
+class Bundle_[BUNDLE];
+extern Bundle_[BUNDLE]* gBundle_[BUNDLE];
+
+class Bundle_[BUNDLE] : public SpriteBundle
+{
+public:
+	Bundle_[BUNDLE]()	{gBundle_[BUNDLE]=this;}
+	void			Load();
+		
+public:
+
+[AUTOMATIC]
+};
+[end];
+
+[begin RAPT.CPP];
+#include "Bundle_[BUNDLE].h"
+Bundle_[BUNDLE]* gBundle_[BUNDLE]=NULL;
+
+void Bundle_[BUNDLE]::Load()
+{
+	OverrideTextureSize();
+	if (IsRetina("[BUNDLE]")) {if (!SpriteBundle::Load("[BUNDLE]@2X")) return;LoadData("[BUNDLE]@2X");}
+	else {if (!SpriteBundle::Load("[BUNDLE]")) return;LoadData("[BUNDLE]");}
+	
+[AUTOMATIC]
+	gG.RegisterFillrect(&mFillrect);
+	UnloadData();
+}
+[end];
+
+
+dick=wad;
