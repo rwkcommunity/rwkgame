@@ -1,0 +1,3 @@
+docker buildx build -t rwk .
+
+docker run -it --rm --mount type=bind,source=/Users/simon/dev/rwkcommunity/rwkgame/RWK_Source,dst=/RWK_Source rwk /bin/bash
