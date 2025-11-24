@@ -176,25 +176,25 @@ void QueueCleanup()
 static int gWriterFd=-1;
 void InitRUtility()
 {
-	gWriterFd=open(RUTILITY_FILE_PATH, O_WRONLY | O_CREAT | O_APPEND, 0666);
+	// gWriterFd=open(RUTILITY_FILE_PATH, O_WRONLY | O_CREAT | O_APPEND, 0666);
 }
 void ShutdownRUtility() {if (gWriterFd>=0) {close(gWriterFd);gWriterFd=-1;}}
 void WriteRUtility(char* theLog)
 {
-	if (gWriterFd<0) return;
-	uint32_t aLen=(uint32_t)strlen(theLog);
-	write(gWriterFd,&aLen,sizeof(aLen));
-	write(gWriterFd,theLog,aLen);
+	// if (gWriterFd<0) return;
+	// uint32_t aLen=(uint32_t)strlen(theLog);
+	// write(gWriterFd,&aLen,sizeof(aLen));
+	// write(gWriterFd,theLog,aLen);
 }
 void ClearRUtility()
 {
-	int aFd=open(RUTILITY_FILE_PATH, O_RDWR | O_CREAT, 0666);
-	if (aFd<0) return;
-	flock(aFd,LOCK_EX);
-	ftruncate(aFd,0);
-	fsync(aFd);
-	flock(aFd,LOCK_UN);
-	close(aFd);
+	// int aFd=open(RUTILITY_FILE_PATH, O_RDWR | O_CREAT, 0666);
+	// if (aFd<0) return;
+	// flock(aFd,LOCK_EX);
+	// ftruncate(aFd,0);
+	// fsync(aFd);
+	// flock(aFd,LOCK_UN);
+	// close(aFd);
 }
 #endif
 
@@ -1768,7 +1768,9 @@ char* OS_Core::GetFilename(char* thePath, char* theExtensions, bool isLoading)
 void OS_Core::GetAppID(char* theResult)
 {
 	// Return any kind of unique GUID for this user.  Not needed for RwK tho.
-	return "000";
+	
+	// return "000";
+	return;
 }
 
 #include <time.h>

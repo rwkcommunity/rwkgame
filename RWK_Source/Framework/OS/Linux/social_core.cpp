@@ -5,6 +5,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "rapt_headers.h"
+
 namespace Social_Core
 {
 	void			Startup()

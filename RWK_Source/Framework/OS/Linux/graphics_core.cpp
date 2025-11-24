@@ -13,6 +13,7 @@
 #include "../common.h"
 #undef __HEADER
 
+#include "rapt_headers.h"
 
 //#define _EXT
 #define _ARB

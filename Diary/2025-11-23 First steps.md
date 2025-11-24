@@ -43,10 +43,14 @@ make[1]: *** [CMakeFiles/Makefile2:130: CMakeFiles/RWK.dir/all] Error 2
 make: *** [Makefile:136: all] Error 2
 ```
 
-The missing pre-processor method `HASH8` is defined in `rapt_math.h` but I have no idea how that it supposed to be included (it's not a direct path).
-I am probably trying to compile way too many things by making `all` (the defaul target). I should find a way to only generate one product, either a WASM or a native application, not both.
+The missing pre-processor method `HASH8` is defined in `rapt_math.h` but I have no idea how
+ that it supposed to be included (it's not a direct path).
+I am probably trying to compile way too many things by making `all` (the defaul target). I 
+should find a way to only generate one product, either a WASM or a native application, not 
+both.
 
 I tried naively adding an include statement, but that caused more problems than it solved.
 
 # Conclusion
-For now I am happy with getting this far. For next time, I will try to set up an AI agent that can run against the entire repo and see what that can come up with.
+For now I am happy with getting this far. For next time, I will try to set up an AI agent 
+that can run against the entire repo and see what that can come up with.
