@@ -13,8 +13,6 @@
 #include "../common.h"
 #undef __HEADER
 
-#include "rapt_headers.h"
-
 //#define _EXT
 #define _ARB
 
@@ -204,13 +202,15 @@ void Graphics_Core::Startup()
 	if (!gSDLScreen) OS_Core::Error("Could not create SDL Screen...");
 #endif
 
-	if (PartnerQuery(HASH8("FORCEREZ")))
+	// if (PartnerQuery(HASH8("FORCEREZ")))
+	if (NULL)
 	{
 	}
 	else
 	{
 		int aFlags=0;
-		if (gFullscreen || PartnerQuery(HASH8("FULLSCRN"))) aFlags=SDL_WINDOW_FULLSCREEN;//_DESKTOP;
+		// if (gFullscreen || PartnerQuery(HASH8("FULLSCRN"))) aFlags=SDL_WINDOW_FULLSCREEN;//_DESKTOP;
+		if (gFullscreen || NULL) aFlags=SDL_WINDOW_FULLSCREEN;//_DESKTOP;
 		SDL_SetWindowFullscreen(gWindow,aFlags);
 	}
 
@@ -1125,10 +1125,10 @@ void* Graphics_Core::Query(longlong theHash, ...)
 {
 	va_list aArgs;
 	va_start(aArgs,theHash);
-	switch(theHash)
-	{
-		case HASH8("REHUPREZ"):
-		{
+	// switch(theHash)
+	// {
+	// 	case HASH8("REHUPREZ"):
+	// 	{
 			gPageWidth=va_arg(aArgs, int);
 			gPageHeight=va_arg(aArgs, int);
 			gResolutionWidth=va_arg(aArgs, int);
@@ -1139,9 +1139,9 @@ void* Graphics_Core::Query(longlong theHash, ...)
 			gTouchWidthMultiplier=(float)gResolutionWidth/(float)gPageWidth;
 			gTouchHeightMultiplier=(float)gResolutionHeight/(float)gPageHeight;
 			//OS_Core::Printf("#RehupRez(P,R): %d,%d -> %d,%d",gPageWidth,gPageHeight,gResolutionWidth,gResolutionHeight);
-			break;
-		}
-	}
+	// 		break;
+	// 	}
+	// }
 	return NULL;
 }
 

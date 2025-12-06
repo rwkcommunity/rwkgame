@@ -30,17 +30,17 @@ void Console::Go()
 #endif
 }
 
-void Echo(char *format, ...)
-{
-	va_list argp;
-	va_start(argp, format);
+// void Echo(char *format, ...)
+// {
+// 	va_list argp;
+// 	va_start(argp, format);
 
-	String aString;
-	aString=Sprintf(format,argp);
-	va_end(argp);
+// 	String aString;
+// 	aString=Sprintf(format,argp);
+// 	va_end(argp);
 
-	gOut.Out(aString);
-}
+// 	gOut.Out(aString);
+// }
 
 
 //#include "rapt_string.h"

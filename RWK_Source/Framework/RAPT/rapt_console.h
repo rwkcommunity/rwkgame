@@ -41,7 +41,7 @@ private:
 };
 
 extern Console gConsole;
-void Echo(char *format, ...);
+// void Echo(char *format, ...);
 
 
 //

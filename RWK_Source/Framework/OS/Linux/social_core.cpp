@@ -5,7 +5,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "rapt_headers.h"
 
 namespace Social_Core
 {
@@ -28,12 +27,14 @@ namespace Social_Core
 
 	bool			IsConnected()
 	{
-		return (PartnerQuery(HASH8("ISREADY?"))!=NULL);
+		// return (PartnerQuery(HASH8("ISREADY?"))!=NULL);
+		return (false);
 	}
 
 	bool			IsConnecting()
 	{
-		return (PartnerQuery(HASH8("ISPENDING?"))!=NULL);
+		return (false);
+		// return (PartnerQuery(HASH8("ISPENDING?"))!=NULL);
 	}
 
 	char*			GetPlayerName()
@@ -55,6 +56,6 @@ namespace Social_Core
 
 	void			SubmitAchievement(char *theAchievement, float thePercentComplete)
 	{
-		PartnerQuery(HASH8("ACHIEVE!"),theAchievement,thePercentComplete);
+		// PartnerQuery(HASH8("ACHIEVE!"),theAchievement,thePercentComplete);
 	}
 }
