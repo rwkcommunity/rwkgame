@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "SDLImage/SDL_image.h"
+#include <SDL_image.h>
 
 #define __HEADER
 #include "../common.h"

@@ -1,6 +1,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <stdio.h>
+#include <algorithm>
 #include "os_core.h"
 #include <sys/time.h>
 #include <sys/file.h>
@@ -25,7 +26,7 @@
 // So that we can set the window icon
 #include <rapt_iobuffer.h>
 
-#include "SDLImage/SDL_image.h"
+#include <SDL_image.h>
 
 void Echo(char *format, ...) {char aString[10000];va_list argp;va_start(argp, format);vsprintf(aString,format, argp);va_end(argp);printf(aString);printf("\n");}
 

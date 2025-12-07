@@ -2,6 +2,6 @@ docker buildx build --platform linux/amd64 -t rwk .
 
 docker run -it --rm --platform linux/amd64 --mount type=bind,source=/Users/simon/dev/rwkcommunity/rwkgame/RWK_Source,dst=/RWK_Source rwk /bin/bash
 
+docker buildx build --platform linux/arm64 -t rwk .
 
-ssh -i ~/.ssh/hetzner root@135.181.146.102
-
+docker run -it --rm --platform linux/arm64 --mount type=bind,source=/Users/simon/dev/rwkcommunity/rwkgame/RWK_Source,dst=/RWK_Source rwk /bin/bash

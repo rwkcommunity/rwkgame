@@ -1,3 +1,7 @@
-cd RWK_Source/Games/RWK/Project/Linux/
+
+cd /RWK_Source/Games/RWK/Project/Linux/
+# THEN
+
 cmake .
-make
+make -j12
+
