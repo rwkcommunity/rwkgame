@@ -7,6 +7,16 @@
 #define CPUHOOKPTR std::function<void(CPU* theThis)>
 #define COPY(x) x=theSource->x
 
+// NEW COMMUNITY
+#ifndef RAPT_LEGACY //(NEW_COMMUNITY_2026)
+#define RAPT_LEGACY //(NEW_COMMUNITY_2026)
+#endif //(NEW_COMMUNITY_2026)
+
+#ifndef LEGACY_GL //(NEW_COMMUNITY_2026)
+#define LEGACY_GL //(NEW_COMMUNITY_2026)
+#endif //(NEW_COMMUNITY_2026)
+// NEW COMMUNITY
+
 //
 // The CPU class replaces the Gadget class from the old framework.
 // A CPU is an object that is intended to act as a "program" in its 
