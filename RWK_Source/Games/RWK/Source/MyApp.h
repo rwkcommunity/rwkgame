@@ -182,7 +182,12 @@ public:
 	bool						mAutoGamecenter;
 	bool						mAcceptedTerms;
 
-	bool						mAlwaysShowGlitchyLevels;
+	// NEW COMMUNITY - default ON
+	//bool						mAlwaysShowGlitchyLevels;
+	bool						mAlwaysShowGlitchyLevels=true;
+
+	// NEW COMMUNITY - default ON
+	bool						mEnableRestartConfirm=true;
 
 	//
 	// Control stuff

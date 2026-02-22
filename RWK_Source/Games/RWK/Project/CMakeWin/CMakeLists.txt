@@ -1,67 +1,101 @@
-set(appname "RWK")
-cmake_minimum_required(VERSION 3.20.0)
-project(${appname} VERSION 0.1.0 LANGUAGES C CXX)
-SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../../Resources/)
+cmake_minimum_required(VERSION 3.20)
+project(RWK VERSION 0.1.0 LANGUAGES C CXX)
 
-# Getting all c++ source files
+set(APPNAME "RWK")
 
-file(GLOB_RECURSE SRCS ${PROJECT_SOURCE_DIR}/../../Source/*.cpp)
-file(GLOB _OS ${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Windows/*.cpp)
-file(GLOB _RAPT ${PROJECT_SOURCE_DIR}/../../../../Framework/RAPT/*.cpp)
-file(GLOB_RECURSE MAIN ${PROJECT_SOURCE_DIR}/Main_Win.cpp)
+# ---- Absolute roots based on THIS file location ----
+# ...Games/RWK/Project/CMakeWin -> up 4 -> ...RWK_Source
+get_filename_component(RWK_TOP "${CMAKE_CURRENT_LIST_DIR}/../../../.." ABSOLUTE)
 
-# Including framework CMakeLists.txt or sources?
-# no seriously dad, what is this?
-include_directories(${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Windows/Include)
-include_directories(${PROJECT_SOURCE_DIR}/../../../../Framework/RAPT/)
-include_directories(${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Windows)
-include_directories(${PROJECT_SOURCE_DIR}/../../../../Framework/OS/)
-include_directories(${PROJECT_SOURCE_DIR}/../../Source/)
+set(RWK_GAME_DIR     "${RWK_TOP}/Games/RWK")
+set(RWK_SOURCE_DIR   "${RWK_GAME_DIR}/Source")
+set(RWK_RES_DIR      "${RWK_GAME_DIR}/Resources")
 
-# Main executable
-add_executable(${appname} WIN32 ${SRCS} ${MAIN} ${_OS} ${_RAPT})
+set(FW_ROOT          "${RWK_TOP}/Framework")
+set(FW_RAPT_DIR      "${FW_ROOT}/RAPT")
+set(FW_WIN_DIR       "${FW_ROOT}/OS/Windows")
+set(FW_OS_DIR        "${FW_ROOT}/OS")
 
-# Show all warnings, works for clang and GCC
-#target_compile_options(${appname} PRIVATE -Wall -Wno-extra -Wno-comment -Wno-write-strings -Wno-class-memaccess -Wno-missing-field-initializers -Wno-unused-variable -Wno-deprecated-copy -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-tautological-compare -Wno-conversion-null -Wno-misleading-indentation -fmax-errors=1 -Wfatal-errors -Wno-delete-incomplete -Wno-int-to-pointer-cast -DGL30 -Wno-format-security -fpermissive) #gcc
+set(SDL_LIB_DIR      "${FW_WIN_DIR}/SDL_2020/Lib")
+set(SDL_INC_DIR      "${FW_WIN_DIR}/SDL_2020/Include")
+set(BASS_LIB_DIR     "${FW_WIN_DIR}/BASS")
 
-#clang
-#target_compile_options(${appname} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-pthread -Wall -Wno-extra -Wno-comment -Wno-write-strings -Wno-missing-field-initializers -Wno-unused-variable -Wno-deprecated-copy -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-tautological-compare -Wno-conversion-null -Wno-misleading-indentation -Wfatal-errors -Wno-delete-incomplete -Wno-int-to-pointer-cast -Wno-format-security -fpermissive -Wno-bitwise-instead-of-logical -Wno-overloaded-virtual -Wno-dynamic-class-memaccess -Wno-delete-non-abstract-non-virtual-dtor -Wno-char-subscripts -Wno-constant-conversion -Wno-unused-but-set-variable -Wno-unsequenced -Wno-unknown-warning-option>)
-#target_compile_options(${appname} PRIVATE $<$<COMPILE_LANGUAGE:C>:-pthread -Wall -Wno-unused-variable>) #clang
+# ---- Sanity checks ----
+if (NOT EXISTS "${FW_RAPT_DIR}/rapt.h")
+    message(FATAL_ERROR "rapt.h NOT FOUND at: ${FW_RAPT_DIR}/rapt.h")
+else()
+    message(STATUS "rapt.h found: ${FW_RAPT_DIR}/rapt.h")
+endif()
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_definitions(-D_DEBUG)
-endif ()
-#add_definitions(-DLEGACY_GL -DGL_LEGACY -DRAPT_LEGACY -DNO_RAPT_ML) # for legacy system builds only
-add_definitions(-DGL30) # for non-legacy system builds only
+# ---- Sources ----
+file(GLOB_RECURSE RWK_SRCS CONFIGURE_DEPENDS
+        "${RWK_SOURCE_DIR}/*.cpp"
+)
 
-target_compile_definitions(${appname} PRIVATE _WIN32 AppRunsInThread)
+file(GLOB FW_WIN_SRCS CONFIGURE_DEPENDS
+        "${FW_WIN_DIR}/*.cpp"
+)
 
-# Set c++ standard for executable
-set_target_properties(${appname} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS ON INSTALL_RPATH "$ORIGIN" BUILD_WITH_INSTALL_RPATH TRUE)
+# ---- RAPT sources ----
+file(GLOB FW_RAPT_SRCS CONFIGURE_DEPENDS
+        "${FW_RAPT_DIR}/*.cpp"
+)
 
-# Link to the actual SDL2 library.
-# SDL2::SDL2 is the shared SDL library, SDL2::SDL2-static is the static SDL library.
+# RWK provides its own ML implementation (MLRender.*).
+# The framework also has rapt_ml.cpp which defines the same symbols.
+# Compile ONLY ONE, so we exclude the framework ML file.
+list(FILTER FW_RAPT_SRCS EXCLUDE REGEX ".*/rapt_ml\\.cpp$")
 
-#include BASS
-find_library(BASS_LIBRARY NAMES bass.lib PATHS ${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Windows/BASS/ ${CURRENT_BINARY_DIR})
-find_library(GFX_LIBRARY NAMES glew32.lib OpenGL32.lib SDL2.lib SLD2_image.lib PATHS ${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Windows/SDL_2020/Lib/ ${CURRENT_BINARY_DIR})
+set(MAIN_SRC "${CMAKE_CURRENT_LIST_DIR}/Main_Win.cpp")
 
-#
-# This strips the /framework/os/blah info from the final executable...
-#
-set(CMAKE_BUILD_RPATH "${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Linux/ThirdParty/BASS/libs/x86_64/;${CMAKE_CURRENT_BINARY_DIR}")
-set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
-set(CMAKE_INSTALL_RPATH "$ORIGIN")
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
-#
-#
+# Optional: exclude MagicAd.cpp if it exists anywhere in game sources
+list(FILTER RWK_SRCS EXCLUDE REGEX ".*/MagicAd\\.cpp$")
 
-# Link to OpenGL
-#target_link_libraries(${appname} PRIVATE OpenGL::OpenGL ${BASS_LIBRARY} ${CURL_LIBRARIES} ${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Linux/ThirdParty/SDLImage/libSDL2_image.a )
-target_link_libraries(${appname} PRIVATE
-        ${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Windows/SDL_2020/Lib/OpenGL32.lib
-        ${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Windows/SDL_2020/Lib/glew32.lib
-        ${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Windows/SDL_2020/Lib/sdl2.lib
-        ${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Windows/SDL_2020/Lib/sdl2_image.lib
-        ${PROJECT_SOURCE_DIR}/../../../../Framework/OS/Windows/BASS/bass.lib)
+# ---- Target ----
+add_executable(${APPNAME} WIN32
+        ${MAIN_SRC}
+        ${RWK_SRCS}
+        ${FW_WIN_SRCS}
+        ${FW_RAPT_SRCS}
+)
 
+# Put the EXE directly into Resources (where DLLs/assets live)
+set_target_properties(${APPNAME} PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+        CXX_EXTENSIONS ON
+        RUNTIME_OUTPUT_DIRECTORY "${RWK_RES_DIR}"
+)
+
+# ---- Includes (target-scoped) ----
+target_include_directories(${APPNAME} PRIVATE
+        "${FW_WIN_DIR}/Include"
+        "${FW_WIN_DIR}"
+        "${FW_ROOT}/OS"
+        "${FW_RAPT_DIR}"
+        "${SDL_INC_DIR}"
+        "${RWK_SOURCE_DIR}"
+)
+
+# ---- Compile defs (target-scoped) ----
+target_compile_definitions(${APPNAME} PRIVATE
+        _WIN32
+        AppRunsInThread
+        LEGACY_GL
+        GL_LEGACY
+        RAPT_LEGACY
+        $<$<CONFIG:Debug>:_DEBUG>
+)
+
+# ---- Link libs ----
+target_link_libraries(${APPNAME} PRIVATE
+        "${SDL_LIB_DIR}/OpenGL32.lib"
+        "${SDL_LIB_DIR}/glew32.lib"
+        "${SDL_LIB_DIR}/SDL2.lib"
+        "${SDL_LIB_DIR}/SDL2_image.lib"
+        "${BASS_LIB_DIR}/bass.lib"
+)
+
+if (MSVC)
+    target_compile_options(${APPNAME} PRIVATE /W3)
+endif()
