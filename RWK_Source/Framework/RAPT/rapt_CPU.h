@@ -15,6 +15,7 @@
 #ifndef LEGACY_GL //(NEW_COMMUNITY_2026)
 #define LEGACY_GL //(NEW_COMMUNITY_2026)
 #endif //(NEW_COMMUNITY_2026)
+// NEW COMMUNITY
 
 //
 // The CPU class replaces the Gadget class from the old framework.
