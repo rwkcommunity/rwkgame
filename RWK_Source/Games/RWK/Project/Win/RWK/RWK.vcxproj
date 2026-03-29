@@ -150,7 +150,6 @@
     <ClCompile Include="..\..\..\Source\Bundle_Tiles.cpp" />
     <ClCompile Include="..\..\..\Source\Dialog.cpp" />
     <ClCompile Include="..\..\..\Source\HighScoreList.cpp" />
-    <ClCompile Include="..\..\..\Source\MagicAd.cpp" />
     <ClCompile Include="..\..\..\Source\MainMenu.cpp" />
     <ClCompile Include="..\..\..\Source\Makermall.cpp" />
     <ClCompile Include="..\..\..\Source\MLRender.cpp" />
@@ -180,7 +179,6 @@
     <ClInclude Include="..\..\..\Source\Bundle_Tiles.h" />
     <ClInclude Include="..\..\..\Source\Dialog.h" />
     <ClInclude Include="..\..\..\Source\HighScoreList.h" />
-    <ClInclude Include="..\..\..\Source\MagicAd.h" />
     <ClInclude Include="..\..\..\Source\MainMenu.h" />
     <ClInclude Include="..\..\..\Source\Makermall.h" />
     <ClInclude Include="..\..\..\Source\MLRender.h" />
