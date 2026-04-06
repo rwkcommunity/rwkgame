@@ -184,6 +184,9 @@ public:
 
 	bool						mAlwaysShowGlitchyLevels;
 
+	//NEW COMMUNITY
+	bool						mEnableRobotJumpAnimation=true;   // NEW COMMUNITY - default ON
+
 	//
 	// Control stuff
 	//

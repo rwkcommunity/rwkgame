@@ -92,7 +92,10 @@ MyApp::MyApp()
 	mAutoGamecenter=false;
 	mAcceptedTerms=false;
 
-	SetAppName("RWK");
+	// NEW COMMUNITY
+	//SetAppName("RWK");
+	SetAppName("RWK_COM");
+
 	SetAppVersion("Alpha 0");
 
 	String aCMD=GetCommandLine();
@@ -219,6 +222,10 @@ void MyApp::LoadComplete()
 	gAppPtr->mSettings.RegisterVariable("AvatarVersion",mAvatarVersion,0);
 	gAppPtr->mSettings.RegisterVariable("TutorDialog",mShowTutorDialog,true);
 	gAppPtr->mSettings.RegisterVariable("AlwaysGlitchy",mAlwaysShowGlitchyLevels,false);
+
+	// NEW COMMUNITY
+	gAppPtr->mSettings.RegisterVariable("RobotJumpAnimation",mEnableRobotJumpAnimation,true);
+
 	gAppPtr->mSettings.RegisterVariable("DisableCustomMusic",mDisableCustomMusic,false);
 
 	gAppPtr->mSettings.RegisterVariable("TouchControls",mTouchControls,mTouchControls);
@@ -733,6 +740,9 @@ GameSettingsDialog* MyApp::GoSettings()
 	aPanel->Add(new DialogCheckbox("ASK ABOUT TUTORIAL",&gApp.mShowTutorDialog));
 	aPanel->Add(new DialogCheckbox("DISABLE CUSTOM MUSIC",&gApp.mDisableCustomMusic));
 	aPanel->Add(new DialogCheckbox("ALLOW GLITCHY LEVELS",&gApp.mAlwaysShowGlitchyLevels));
+
+	// NEW COMMUNITY
+	aPanel->Add(new DialogCheckbox("ROBOT JUMP ANIMATION",&gApp.mEnableRobotJumpAnimation));
 
 	aPanel->Add(new DialogNextPanel("H@XX0R STUFF","HACK",aDialog->mHack));
 

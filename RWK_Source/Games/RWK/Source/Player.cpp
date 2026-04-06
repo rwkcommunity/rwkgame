@@ -1558,12 +1558,47 @@ void Robot::DrawBot()
 				DrawBoltGlow(mPos+(gBundle_Play->mRobot_Jumpshoot.mKey[1]*Point(-mDrawFacing,1.0f)),1);
 			}
 		}
-		else 
+		else
 		{
-			gBundle_Play->mRobot_Jump.Draw(aMat);
-			if (mHasHelmet) gBundle_Play->mRobot_Jump_Helmet.Draw(aMat);
+			// NEW COMMUNITY - allow players to disable the new jump animation
+			if (!gApp.mEnableRobotJumpAnimation)
+			{
+				gBundle_Play->mRobot_Jump.Draw(aMat);
+
+				if (mHasHelmet)
+					gBundle_Play->mRobot_Jump_Helmet.Draw(aMat);
+			}
+			else
+			{
+				// NEW COMMUNITY - ascending uses rocket pose, falling uses jump pose
+				// mGravity < 0 -> going UP
+				// mGravity > 0 -> falling DOWN
+				// small band around 0 = apex, treat as falling
+				const float apexEpsilon = 0.15f;
+				bool isAscending = (mGravity < -apexEpsilon);
+
+				if (isAscending)
+				{
+					// Jumping UP → rocket pose
+					gBundle_Play->mRobot_Rocket.Draw(aMat);
+
+					if (mHasHelmet)
+						gBundle_Play->mRobot_Rocket_Helmet.Draw(aMat);
+				}
+				else
+				{
+					// Falling DOWN → regular jump pose
+					gBundle_Play->mRobot_Jump.Draw(aMat);
+
+					if (mHasHelmet)
+						gBundle_Play->mRobot_Jump_Helmet.Draw(aMat);
+				}
+
+			}
 		}
+
 	}
+
 	else if (mPushing)
 	{
 		gG.Translate((gMath.Sin(mBob/2))/2,0.0f);
